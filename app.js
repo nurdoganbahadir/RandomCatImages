@@ -17,3 +17,25 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
+//*SAYFA YÜKLENDİĞİNDE FETCH METODU ÇALIŞACAK YAPIYI OLUŞTURALIM
+
+setTimeout(() => {
+  fetch("https://api.thecatapi.com/v1/images/search?limit=10")
+    .then((res) => res.json())
+    .then((data) => {
+      data.forEach((cat) => {
+        document.querySelector(".row").innerHTML += `
+        <div class="col-12 col-sm-6 col-lg-4">
+            <div style="height:200px;">
+                <img src="${cat.url}" class="w-100 h-100" alt="...">
+            </div>
+        </div>
+        `;
+      });
+    })
+    .catch((error) => {
+      document.querySelector(
+        "body"
+      ).innerHTML = `<img src="./img/error.gif" class="w-100 h-100" alt="...">`;
+    });
+}, 0);
