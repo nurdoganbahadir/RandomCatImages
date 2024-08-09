@@ -19,23 +19,30 @@ updateClock();
 
 //*SAYFA YÜKLENDİĞİNDE FETCH METODU ÇALIŞACAK YAPIYI OLUŞTURALIM
 
-setTimeout(() => {
-  fetch("https://api.thecatapi.com/v1/images/search?limit=10")
-    .then((res) => res.json())
-    .then((data) => {
-      data.forEach((cat) => {
-        document.querySelector(".row").innerHTML += `
-        <div class="col-12 col-sm-6 col-lg-4">
+function loadPageImages() {
+  setTimeout(() => {
+    fetch("https://api.thecatapi.com/v1/images/search?limit=10")
+      .then((res) => res.json())
+      .then((data) => {
+        document.querySelector(".row").innerHTML = "";
+        data.forEach((cat) => {
+          document.querySelector(".row").innerHTML += `
+        <div class="col-12 col-sm-6 col-lg-4 mt-3">
             <div style="height:200px;">
                 <img src="${cat.url}" class="w-100 h-100" alt="...">
             </div>
         </div>
         `;
+        });
+      })
+      .catch(() => {
+        document.querySelector(
+          "body"
+        ).innerHTML = `<img src="./img/error.gif" class="w-100 h-100" alt="...">`;
       });
-    })
-    .catch((error) => {
-      document.querySelector(
-        "body"
-      ).innerHTML = `<img src="./img/error.gif" class="w-100 h-100" alt="...">`;
-    });
-}, 0);
+  }, 0);
+}
+
+loadPageImages();
+
+document.querySelector(".btn").onclick = loadPageImages;
